@@ -1,0 +1,98 @@
+### 1. teste 1: usuario nao autenticado acessando rota protegido (401)
+GET http://localhost:3000/livros
+
+###
+
+### 2. teste 2: login com Leitor (Alysson Michel)
+# @name loginLeitor
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "nome": "Alysson Michel",
+  "senha": "123"
+}
+
+###
+
+@tokenLeitor = {{loginLeitor.response.body.token}}
+
+### 3. teste 3: leitor acessando catalogo de livros de BSI (200)
+GET http://localhost:3000/livros
+Authorization: Bearer {{tokenLeitor}}
+
+###
+
+### 4. teste 4: leitor tentando cadastrar livro no acervo (403)
+POST http://localhost:3000/livros
+Content-Type: application/json
+Authorization: Bearer {{tokenLeitor}}
+
+{
+  "titulo": "Compiladores: Principios e Tecnicas",
+  "autor": "Aho et al."
+}
+
+###
+
+### 5. teste 5a: logout do leitor
+POST http://localhost:3000/logout
+Authorization: Bearer {{tokenLeitor}}
+
+###
+
+### 5. teste 5b: tentativa de acesso apos Logout (401 por token revogado)
+GET http://localhost:3000/livros
+Authorization: Bearer {{tokenLeitor}}
+
+###
+
+### 6. teste 6a: login bibliotecaria (Maria Júlia)
+# @name loginBib
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "nome": "Maria Júlia",
+  "senha": "123"
+}
+
+###
+
+@tokenBib = {{loginBib.response.body.token}}
+
+### 6. teste 6b: bibliotecaria cadastrando livro de BSI (201)
+POST http://localhost:3000/livros
+Content-Type: application/json
+Authorization: Bearer {{tokenBib}}
+
+{
+  "titulo": "Inteligência Artificial: Uma Abordagem Moderna",
+  "autor": "Stuart Russell, Peter Norvig"
+}
+
+###
+
+### 6. teste 6c: bibliotecaria tentando acessar rota de admin (403)
+GET http://localhost:3000/usuarios
+Authorization: Bearer {{tokenBib}}
+
+###
+
+### 6. teste 6d: login admin (Prof Evandro)
+# @name loginAdmin
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "nome": "Prof Evandro",
+  "senha": "123"
+}
+
+###
+
+@tokenAdmin = {{loginAdmin.response.body.token}}
+
+### 6. teste 6e: admin acessando /usuarios (200)
+GET http://localhost:3000/usuarios
+Authorization: Bearer {{tokenAdmin}}
