@@ -1,0 +1,26 @@
+{
+  "name": "pweb-biblioteca",
+  "version": "1.0.0",
+  "description": "API minima para estudo de Gerenciamento de Estado, Autenticacao e Autorizacao (PWEB II)",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "test:suite": "tsx src/test-suite.ts"
+  },
+  "keywords": ["express", "typescript", "rbac", "jwt", "auth"],
+  "author": "Alysson Michel",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.8",
+    "@types/node": "^22.13.4",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  }
+}
